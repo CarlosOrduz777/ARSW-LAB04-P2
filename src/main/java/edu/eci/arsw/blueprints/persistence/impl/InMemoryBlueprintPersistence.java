@@ -11,16 +11,19 @@ import edu.eci.arsw.blueprints.persistence.BlueprintNotFoundException;
 import edu.eci.arsw.blueprints.persistence.BlueprintPersistenceException;
 import edu.eci.arsw.blueprints.persistence.BlueprintsPersistence;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 /**
  *
  * @author hcadavid
  */
-@Service
+@Component("bpp")
 public class InMemoryBlueprintPersistence implements BlueprintsPersistence{
 
     private final Map<Tuple<String,String>,Blueprint> blueprints=new HashMap<>();
@@ -45,11 +48,12 @@ public class InMemoryBlueprintPersistence implements BlueprintsPersistence{
 
     @Override
     public Blueprint getBlueprint(String author, String bprintname) throws BlueprintNotFoundException {
-         if(blueprints.get(new Tuple<>(author, bprintname))!= null){
-             return blueprints.get(new Tuple<>(author,bprintname));
-         }else{
-             throw new BlueprintNotFoundException("There is no such blueprint");
-         }
+        if (!blueprints.containsKey(new Tuple<>(author,bprintname))){
+            throw new BlueprintNotFoundException("Blueprint not found");
+        }
+        else{
+           return blueprints.get(new Tuple<>(author,bprintname));
+        }
     }
 
     @Override

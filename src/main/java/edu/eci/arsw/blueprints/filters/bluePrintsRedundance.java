@@ -2,9 +2,11 @@ package edu.eci.arsw.blueprints.filters;
 
 import edu.eci.arsw.blueprints.model.Blueprint;
 import edu.eci.arsw.blueprints.model.Point;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
+@Component("bpr")
 public class bluePrintsRedundance implements bluePrintsFilters{
     @Override
     public Blueprint filtrar(Blueprint blueprint) {

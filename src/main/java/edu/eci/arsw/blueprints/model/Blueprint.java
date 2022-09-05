@@ -53,7 +53,11 @@ public class Blueprint {
 
     @Override
     public String toString() {
-        return "Blueprint{" + "author=" + author + ", name=" + name + '}';
+        StringBuilder pointsResult= new StringBuilder();
+        for (Point p: getPoints()) {
+            pointsResult.append(p.toString());
+        }
+        return "Blueprint{" + "author=" + author + ", name=" + name + '}'+" Points:"+pointsResult;
     }
 
     @Override
