@@ -58,13 +58,8 @@ public class InMemoryBlueprintPersistence implements BlueprintsPersistence{
 
     @Override
     public Set<Blueprint> getBlueprintsByAuthor(String author) throws BlueprintNotFoundException {
-       Set<Blueprint> blueprintsByAuthor = blueprints.entrySet().stream().filter(e -> author.equals(e.getKey().getElem1())).map(Map.Entry::getValue).collect(Collectors.toSet());
-       
-       if(blueprintsByAuthor != null){
-           return blueprintsByAuthor;
-       }else{
-           throw new BlueprintNotFoundException("This author doesn´t exist");
-       }
+
+        return blueprints.entrySet().stream().filter(e -> author.equals(e.getKey().getElem1())).map(Map.Entry::getValue).collect(Collectors.toSet());
     }
 
     @Override

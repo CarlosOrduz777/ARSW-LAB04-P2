@@ -2,26 +2,25 @@ package edu.eci.arsw.blueprints.filters;
 
 import edu.eci.arsw.blueprints.model.Blueprint;
 import edu.eci.arsw.blueprints.model.Point;
+import one.util.streamex.StreamEx;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
-@Component("bpr")
+//@Component("bpf")
 public class bluePrintsRedundance implements bluePrintsFilters{
     @Override
     public Blueprint filtrar(Blueprint blueprint) {
-    List<Point> flatpoint = blueprint.getPoints();
-    List<Point> puntosfil = new ArrayList<Point>();
-    for(int i=0;i<flatpoint.size();i++){
-        System.out.println();
-        puntosfil.add(flatpoint.get(i));
-        for(int j=0;j<puntosfil.size();j++){
-            if(flatpoint.get(i).equals(puntosfil.get(j))){
-                puntosfil.remove(i);
-            }
+        List<Point> distinctPoints = null;
+        for (Point p : blueprint.getPoints()) {
+            distinctPoints = StreamEx.of(blueprint.getPoints()).distinct(e -> e.equals(p)).toList();
         }
-
+        return new Blueprint(blueprint.getAuthor(),blueprint.getName(),distinctPoints);
     }
-    return new Blueprint(blueprint.getAuthor(), blueprint.getName(),puntosfil);
+
+    @Override
+    public Set<Blueprint> filterByAuthor(Set<Blueprint> blueprints) {
+        return blueprints;
     }
 }

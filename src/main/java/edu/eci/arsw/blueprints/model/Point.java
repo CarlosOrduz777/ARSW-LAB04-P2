@@ -41,6 +41,12 @@ public class Point {
     public String toString(){
         return "["+"{" + this.getX() + "," +this.getY() +"}"+"]";
     }
+
+    @Override
+    public boolean equals(Object obj){
+        Point p = (Point) obj;
+        return (p.getX() == this.getX()) && p.getY() == this.getY();
+    }
     
     
     

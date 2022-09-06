@@ -5,6 +5,7 @@
  */
 package edu.eci.arsw.blueprints.services;
 
+import edu.eci.arsw.blueprints.filters.bluePrintsFilters;
 import edu.eci.arsw.blueprints.filters.bluePrintsRedundance;
 import edu.eci.arsw.blueprints.filters.bluePrintsUndersampling;
 import edu.eci.arsw.blueprints.model.Blueprint;
@@ -30,9 +31,7 @@ public class BlueprintsServices {
     @Autowired
     private BlueprintsPersistence bpp;
     @Autowired
-    private bluePrintsRedundance bpr;
-
-    private bluePrintsUndersampling bpu;
+    private bluePrintsFilters bpf;
     
     public void addNewBlueprint(Blueprint bp)throws BlueprintPersistenceException{
         bpp.saveBlueprint(bp);
@@ -52,10 +51,7 @@ public class BlueprintsServices {
     public Blueprint getBlueprint(String author,String name) throws BlueprintNotFoundException{
         if(bpp.getBlueprint(author, name)!= null){
              Blueprint bp =  bpp.getBlueprint(author, name);
-             if(bpr != null){
-                 return bpr.filtrar(bp);
-             }
-             return bpu.filtrar(bp);
+             return bpf.filtrar(bp);
          }else{
              throw new BlueprintNotFoundException("There is no such blueprint");
          }
@@ -69,7 +65,8 @@ public class BlueprintsServices {
      */
     public Set<Blueprint> getBlueprintsByAuthor(String author) throws BlueprintNotFoundException{
         if(bpp.getBlueprintsByAuthor(author) != null){
-            return bpp.getBlueprintsByAuthor(author);
+            Set<Blueprint> bpResult= bpp.getBlueprintsByAuthor(author);
+            return bpf.filterByAuthor(bpResult);
         }else{
             throw new BlueprintNotFoundException("The given author doesn´t exist");
         }
